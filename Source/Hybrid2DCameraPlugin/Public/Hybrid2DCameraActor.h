@@ -27,7 +27,7 @@ struct FDeadzoneRange
 };
 
 UCLASS()
-class HYBRID2DCAMERAMODULE_API AHybrid2DCameraActor : public ACameraActor
+class HYBRID2DCAMERAPLUGIN_API AHybrid2DCameraActor : public ACameraActor
 {
 	GENERATED_BODY()
 
@@ -42,7 +42,7 @@ protected:
 private:
 	/**
 	 * Target to follow.
-	 * The target will be automatically assigned at BeginPlay(). So assign in the editor is only for setup/debugging purpose.
+	 * The target will be automatically assigned at BeginPlay(). So assigning in the editor is only for setup/debugging purposes.
 	 */
 	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings|Target")
 	TObjectPtr<AActor> Target;
@@ -69,18 +69,18 @@ private:
 	FRotator OriginRotation;
 	/**
 	 * Distance from camera to the Target.
-	 * Intend for camera that also track target in Depth axis.
+	 * Intend for the camera to track the target in the depth axis.
 	 */
 	UPROPERTY(VisibleAnywhere, Category="2D Hybrid Settings|Lock Transform")
 	float CameraDistance;
 
 	/**
-	 * Horizontal deadzone in screen-space.
+	 * Horizontal dead zone in screen space.
 	 */
 	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings|Deadzone")
 	FDeadzoneRange HorizontalDeadzone;
 	/**
-	 * Vertical deadzone in screen-space.
+	 * Vertical dead zone in screen-space.
 	 */
 	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings|Deadzone")
 	FDeadzoneRange VerticalDeadzone;
