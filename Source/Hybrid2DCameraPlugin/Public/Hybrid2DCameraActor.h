@@ -3,29 +3,6 @@
 #include "Camera/CameraActor.h"
 #include "Hybrid2DCameraActor.generated.h"
 
-USTRUCT(BlueprintType)
-struct FLockAxis
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere)
-	bool X = false;
-	UPROPERTY(EditAnywhere)
-	bool Y = false;
-	UPROPERTY(EditAnywhere)
-	bool Z = false;
-};
-
-USTRUCT(BlueprintType)
-struct FDeadzoneRange
-{
-	GENERATED_BODY()
-	UPROPERTY(EditAnywhere)
-	float Min = -10.f;
-	UPROPERTY(EditAnywhere)
-	float Max = 10.f;
-};
-
 UCLASS()
 class HYBRID2DCAMERAPLUGIN_API AHybrid2DCameraActor : public ACameraActor
 {
@@ -35,7 +12,6 @@ public:
 	AHybrid2DCameraActor();
 
 protected:
-	virtual void OnConstruction(const FTransform& Transform) override;
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
@@ -52,38 +28,15 @@ private:
 	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings|Target")
 	int TargetIndex;
 
-	/**
-	 * More than one axis can be locked.
-	 */
-	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings|Lock Transform")
-	FLockAxis LockAxis;
-	/**
-	 * Original location to be used with the LockAxis.
-	 */
-	UPROPERTY(VisibleAnywhere, Category="2D Hybrid Settings|Lock Transform")
-	FVector OriginLocation;
-	/**
-	 * Original rotation to be used with the LockAxis.
-	 */
-	UPROPERTY(VisibleAnywhere, Category="2D Hybrid Settings|Lock Transform")
-	FRotator OriginRotation;
-	/**
-	 * Distance from camera to the Target.
-	 * Intend for the camera to track the target in the depth axis.
-	 */
-	UPROPERTY(VisibleAnywhere, Category="2D Hybrid Settings|Lock Transform")
-	float CameraDistance;
+	UPROPERTY(EditAnywhere, Category="2D Hybrid Settings")
+	FVector2D DeadzonePadding;
 
 	/**
-	 * Horizontal dead zone in screen space.
+	 * How fast the camera try to catch up to the target.
 	 */
-	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings|Deadzone")
-	FDeadzoneRange HorizontalDeadzone;
-	/**
-	 * Vertical dead zone in screen-space.
-	 */
-	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings|Deadzone")
-	FDeadzoneRange VerticalDeadzone;
+	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings")
+	FVector MoveSpeed;
 
-	float FindCameraDistance() const;
+	UPROPERTY()
+	APlayerController* PlayerController;
 };
