@@ -1,10 +1,22 @@
 #pragma once
 
-#include "Camera/CameraActor.h"
+#include "GameFramework/Actor.h"
 #include "Hybrid2DCameraActor.generated.h"
 
+USTRUCT(BlueprintType)
+struct FWorldAxis
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere)
+	bool X = false;
+	UPROPERTY(EditAnywhere)
+	bool Y = false;
+	UPROPERTY(EditAnywhere)
+	bool Z = false;
+};
+
 UCLASS()
-class HYBRID2DCAMERAPLUGIN_API AHybrid2DCameraActor : public ACameraActor
+class HYBRID2DCAMERAPLUGIN_API AHybrid2DCameraActor : public AActor
 {
 	GENERATED_BODY()
 
@@ -16,6 +28,11 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 private:
+	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings")
+	FVector OriginPoint;
+	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings")
+	FWorldAxis LockedAxis;
+	
 	/**
 	 * Target to follow.
 	 * The target will be automatically assigned at BeginPlay(). So assigning in the editor is only for setup/debugging purposes.
@@ -28,15 +45,8 @@ private:
 	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings|Target")
 	int TargetIndex;
 
-	UPROPERTY(EditAnywhere, Category="2D Hybrid Settings")
-	FVector2D DeadzonePadding;
-
-	/**
-	 * How fast the camera try to catch up to the target.
-	 */
-	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings")
-	FVector MoveSpeed;
-
-	UPROPERTY()
-	APlayerController* PlayerController;
+	UPROPERTY(EditAnywhere, Category="Components")
+	TObjectPtr<class USpringArmComponent> SpringArm;
+	UPROPERTY(EditAnywhere, Category="Components")
+	TObjectPtr<class UCameraComponent> Camera;
 };
