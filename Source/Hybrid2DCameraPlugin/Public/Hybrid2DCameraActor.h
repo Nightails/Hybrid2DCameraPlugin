@@ -24,6 +24,7 @@ public:
 	AHybrid2DCameraActor();
 
 protected:
+	virtual void OnConstruction(const FTransform& Transform) override;
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
@@ -32,6 +33,8 @@ private:
 	FVector OriginPoint;
 	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings")
 	FWorldAxis LockedAxis;
+	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings")
+	float CameraDistance;
 	
 	/**
 	 * Target to follow.
@@ -44,6 +47,13 @@ private:
 	 */
 	UPROPERTY(EditInstanceOnly, Category="2D Hybrid Settings|Target")
 	int TargetIndex;
+	
+	UPROPERTY(EditAnywhere, Category="2D Hybrid Settings|Deadzone")
+	FVector DeadZoneMax;
+	UPROPERTY(EditAnywhere, Category="2D Hybrid Settings|Deadzone")
+	FVector DeadZoneMin;
+	UPROPERTY(EditAnywhere, Category="2D Hybrid Settings|Deadzone")
+	float HeightOffset;
 
 	UPROPERTY(EditAnywhere, Category="Components")
 	TObjectPtr<class USpringArmComponent> SpringArm;
